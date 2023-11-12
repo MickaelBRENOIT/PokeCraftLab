@@ -41,3 +41,15 @@ In "Theme.kt" you can update your status and navigation colors
     window.navigationBarColor = colorScheme.background.toArgb()
 
 ```
+
+## Dependency Injection
+
+We will use Dagger Hilt for [Dependency Injection (DI)](https://developer.android.com/training/dependency-injection/hilt-android?hl=fr) as recommended by Google.
+
+1. Add dependencies to "build.gradle" at project level
+2. Add dependencies to "build.gradle" at app module level and add references to dagger-hilt plugin.
+3. Update "sourceCompatibility" and "targetCompatibility" to JavaVersion 1.8 according to the official documentation. But it seems since AGP verion 8.0.0, the targeted JavaVersion is 17.
+4. Create a class extending Application and add this class to the *application* tag in manifest file. (*android:name* attribute). This file should be annoted with **@AndroidHiltApp**
+5. Finally, *MainActivity* should be annoted with *@AndroidEntryPoint*.
+
+
