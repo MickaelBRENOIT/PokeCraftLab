@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.mickaelbrenoit.pokecraftlab.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -49,6 +49,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    hilt {
+        enableTransformForLocalTests = true
+    }
 }
 
 dependencies {
@@ -66,15 +69,29 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation("androidx.compose.ui:ui-tooling")
+    androidTestImplementation("androidx.compose.ui:ui-test-manifest")
 
     // Splashscreen
     implementation("androidx.core:core-splashscreen:1.0.0")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    val hiltVersion = "2.44"
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    // For Robolectric tests.
+    testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    // ...with Kotlin.
+    kaptTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    // For instrumented tests.
+    androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    // ...with Kotlin.
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+
+    // Navigation
+    val navigationVersion = "2.5.3"
+    implementation("androidx.navigation:navigation-compose:$navigationVersion")
+    androidTestImplementation("androidx.navigation:navigation-testing:$navigationVersion")
 }
 
 // Allow references to generated code

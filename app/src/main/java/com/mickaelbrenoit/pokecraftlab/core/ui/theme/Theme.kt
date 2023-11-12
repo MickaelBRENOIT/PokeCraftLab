@@ -1,4 +1,4 @@
-package com.mickaelbrenoit.pokecraftlab.ui.theme
+package com.mickaelbrenoit.pokecraftlab.core.ui.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,4 +1,4 @@
-package com.mickaelbrenoit.pokecraftlab.ui.theme
+package com.mickaelbrenoit.pokecraftlab.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
