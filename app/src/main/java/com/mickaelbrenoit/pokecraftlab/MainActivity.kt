@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                                 Text(text = "Signup")
                             }
                         }
-                        composable(Screen.ForgetPassword.route., arguments = listOf(navArgument("pokemonId") { type = NavType.StringType })) { backStackEntry ->
+                        composable(Screen.ForgetPassword.route, arguments = listOf(navArgument("pokemonId") { type = NavType.StringType })) { backStackEntry ->
                             val pokemonId = backStackEntry.arguments?.getString("pokemonId") ?: return@composable
                         }
                     }
