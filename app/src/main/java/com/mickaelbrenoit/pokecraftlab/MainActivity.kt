@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.mickaelbrenoit.pokecraftlab.authentication.signin.ui.SignInScreen
 import com.mickaelbrenoit.pokecraftlab.core.navigation.Screen
 import com.mickaelbrenoit.pokecraftlab.core.ui.theme.PokeCraftLabTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,21 +27,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PokeCraftLabTheme {
-                val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "authentication") {
-                    navigation(startDestination = Screen.SignIn.route, route = "authentication") {
-                        composable(Screen.SignIn.route) {
-                            Surface(modifier = Modifier.fillMaxSize()) {
-                                Text(text = "Signin")
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "authentication") {
+                        navigation(startDestination = Screen.SignIn.route, route = "authentication") {
+                            composable(Screen.SignIn.route) {
+                                SignInScreen(navController = navController)
                             }
-                        }
-                        composable(Screen.SignUp.route) {
-                            Surface(modifier = Modifier.fillMaxSize()) {
-                                Text(text = "Signup")
+                            composable(Screen.SignUp.route) {
+                                Surface(modifier = Modifier.fillMaxSize()) {
+                                    Text(text = "Signup")
+                                }
                             }
-                        }
-                        composable(Screen.ForgetPassword.route, arguments = listOf(navArgument("pokemonId") { type = NavType.StringType })) { backStackEntry ->
-                            val pokemonId = backStackEntry.arguments?.getString("pokemonId") ?: return@composable
+                            composable(Screen.ForgetPassword.route, arguments = listOf(navArgument("pokemonId") { type = NavType.StringType })) { backStackEntry ->
+                                val pokemonId = backStackEntry.arguments?.getString("pokemonId") ?: return@composable
+                            }
                         }
                     }
                 }

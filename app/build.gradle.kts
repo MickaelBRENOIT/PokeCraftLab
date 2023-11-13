@@ -91,7 +91,11 @@ dependencies {
     // Navigation
     val navigationVersion = "2.5.3"
     implementation("androidx.navigation:navigation-compose:$navigationVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     androidTestImplementation("androidx.navigation:navigation-testing:$navigationVersion")
+
+    // Compose (more icons)
+    implementation("androidx.compose.material:material-icons-extended")
 }
 
 // Allow references to generated code
