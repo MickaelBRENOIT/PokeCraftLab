@@ -8,7 +8,7 @@ private const val MIN_PASS_LENGTH = 8
 private const val PASS_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$"
 
 fun String.isValidEmail(): Boolean {
-    return this.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    return this.isNotBlank() && this.length >= MIN_USER_LENGTH &&Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
 
 fun String.isValidPassword(): Boolean {

@@ -8,15 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -32,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mickaelbrenoit.pokecraftlab.R
+import com.mickaelbrenoit.pokecraftlab.core.ui.components.PokeCraftLabEmailField
+import com.mickaelbrenoit.pokecraftlab.core.ui.components.PokeCraftLabPasswordField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,81 +49,28 @@ fun SignInScreen(
     ) {
 
         val uiState by viewModel.uiState
-        
-        var isPasswordVisible by rememberSaveable {
-            mutableStateOf(true)
-        }
 
-        OutlinedTextField(
+        PokeCraftLabEmailField(
             value = uiState.email,
             onValueChange = viewModel::onEmailChange,
-            placeholder = {
-                Text(text = stringResource(id = R.string.authentication_email_placeholder))
-            },
-            label = {
-                Text(text = stringResource(id = R.string.authentication_email_label))
-            },
-            isError = !uiState.isEmailValid,
-            supportingText = {
-                if (uiState.isEmailValid) {
-                    Text(text = stringResource(id = R.string.authentication_required_field_supported_text))
-                } else {
-                    Text(text = stringResource(id = R.string.authentication_email_supported_text))
-                }
-            },
-            leadingIcon = {
-                Icon(imageVector = Icons.Filled.Person, contentDescription = stringResource(id = R.string.authentication_email_leading_icon_description))
-            },
-            trailingIcon = {
-                if (uiState.email.isNotEmpty()) {
-                    IconButton(onClick = viewModel::onEmailClear) {
-                        Icon(imageVector = Icons.Filled.Clear, contentDescription = stringResource(
-                            id = R.string.authentication_email_trailing_icon_description
-                        ))
-                    }
-                }
-            },
-            singleLine = true,
+            isValueValid = uiState.isEmailValid,
+            onClearField = viewModel::onEmailClear,
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        OutlinedTextField(
+        PokeCraftLabPasswordField(
             value = uiState.password,
             onValueChange = viewModel::onPasswordChange,
-            placeholder = {
-                Text(text = stringResource(id = R.string.authentication_password_placeholder))
-            },
-            label = {
-                Text(text = stringResource(id = R.string.authentication_password_label))
-            },
-            isError = !uiState.isPasswordValid,
-            supportingText = {
-                if (uiState.isPasswordValid) {
-                    Text(text = stringResource(id = R.string.authentication_required_field_supported_text))
-                } else {
-                    Text(text = stringResource(id = R.string.authentication_password_supported_text))
-                }
-            },
-            leadingIcon = {
-                Icon(imageVector = Icons.Filled.Lock, contentDescription = stringResource(id = R.string.authentication_email_leading_icon_description))
-            },
-            trailingIcon = {
-                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                    val visibilityIcon = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                    val descriptionIcon = if (isPasswordVisible) stringResource(id = R.string.authentication_password_trailing_icon_activated_description) else stringResource(
-                        id = R.string.authentication_password_trailing_icon_deactivated_description
-                    )
-                    Icon(imageVector = visibilityIcon, contentDescription = descriptionIcon)
-                }
-            },
-            singleLine = true,
+            isValueValid = uiState.isPasswordValid,
             modifier = Modifier.fillMaxWidth()
         )
 
+        Spacer(modifier = Modifier.height(8.dp))
+
         Button(
-            onClick = { /*TODO*/ },
+            onClick = viewModel::onSignInClick,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = stringResource(id = R.string.authentication_signin_button))
@@ -131,13 +79,13 @@ fun SignInScreen(
         TextButton(
             onClick = { /*TODO*/ },
             modifier = Modifier.align(Alignment.End)) {
-            Text(text = stringResource(id = R.string.authentication_signup_textbutton))
+            Text(text = stringResource(id = R.string.authentication_signup_textbutton), style = MaterialTheme.typography.labelSmall)
         }
 
         TextButton(
             onClick = { /*TODO*/ },
             modifier = Modifier.align(Alignment.End)) {
-            Text(text = stringResource(id = R.string.authentication_forget_password_textbutton))
+            Text(text = stringResource(id = R.string.authentication_forget_password_textbutton), style = MaterialTheme.typography.labelSmall)
         }
     }
 }
