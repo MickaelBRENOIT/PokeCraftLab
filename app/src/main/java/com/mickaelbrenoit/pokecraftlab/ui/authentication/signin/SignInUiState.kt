@@ -1,4 +1,4 @@
-package com.mickaelbrenoit.pokecraftlab.authentication.signin.ui
+package com.mickaelbrenoit.pokecraftlab.ui.authentication.signin
 
 data class SignInUiState(
     val email: String = "",

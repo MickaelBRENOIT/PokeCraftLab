@@ -73,6 +73,8 @@ fun PokeCraftLabPasswordField(
     value: String,
     onValueChange: (String) -> Unit,
     isValueValid: Boolean,
+    label: String = stringResource(id = R.string.authentication_password_label),
+    placeholder: String = stringResource(id = R.string.authentication_password_placeholder),
     modifier: Modifier = Modifier
 ) {
 
@@ -84,10 +86,10 @@ fun PokeCraftLabPasswordField(
         value = value,
         onValueChange = onValueChange,
         placeholder = {
-            Text(text = stringResource(id = R.string.authentication_password_placeholder))
+            Text(text = placeholder)
         },
         label = {
-            Text(text = stringResource(id = R.string.authentication_password_label))
+            Text(text = label)
         },
         isError = !isValueValid,
         supportingText = {

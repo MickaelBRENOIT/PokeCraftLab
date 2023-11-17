@@ -1,4 +1,4 @@
-package com.mickaelbrenoit.pokecraftlab.authentication.signin.ui
+package com.mickaelbrenoit.pokecraftlab.ui.authentication.signin
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,23 +7,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mickaelbrenoit.pokecraftlab.R
+import com.mickaelbrenoit.pokecraftlab.core.navigation.Screen
 import com.mickaelbrenoit.pokecraftlab.core.ui.components.PokeCraftLabEmailField
 import com.mickaelbrenoit.pokecraftlab.core.ui.components.PokeCraftLabPasswordField
 
@@ -77,7 +68,7 @@ fun SignInScreen(
         }
 
         TextButton(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate(Screen.SignUp.route) },
             modifier = Modifier.align(Alignment.End)) {
             Text(text = stringResource(id = R.string.authentication_signup_textbutton), style = MaterialTheme.typography.labelSmall)
         }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,9 +15,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.mickaelbrenoit.pokecraftlab.authentication.signin.ui.SignInScreen
+import com.mickaelbrenoit.pokecraftlab.ui.authentication.signin.SignInScreen
+import com.mickaelbrenoit.pokecraftlab.core.navigation.Destination
 import com.mickaelbrenoit.pokecraftlab.core.navigation.Screen
 import com.mickaelbrenoit.pokecraftlab.core.ui.theme.PokeCraftLabTheme
+import com.mickaelbrenoit.pokecraftlab.ui.authentication.signup.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,15 +32,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "authentication") {
-                        navigation(startDestination = Screen.SignIn.route, route = "authentication") {
+                    NavHost(navController = navController, startDestination = Destination.Authentication.route) {
+                        navigation(startDestination = Screen.SignIn.route, route = Destination.Authentication.route) {
                             composable(Screen.SignIn.route) {
                                 SignInScreen(navController = navController)
                             }
                             composable(Screen.SignUp.route) {
-                                Surface(modifier = Modifier.fillMaxSize()) {
-                                    Text(text = "Signup")
-                                }
+                                SignUpScreen(navController = navController)
                             }
                             composable(Screen.ForgetPassword.route, arguments = listOf(navArgument("pokemonId") { type = NavType.StringType })) { backStackEntry ->
                                 val pokemonId = backStackEntry.arguments?.getString("pokemonId") ?: return@composable

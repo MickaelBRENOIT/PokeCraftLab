@@ -1,4 +1,4 @@
-package com.mickaelbrenoit.pokecraftlab.authentication.signin.ui
+package com.mickaelbrenoit.pokecraftlab.ui.authentication.signup
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -6,17 +6,18 @@ import androidx.lifecycle.viewModelScope
 import com.mickaelbrenoit.pokecraftlab.core.helpers.ResourceProvider
 import com.mickaelbrenoit.pokecraftlab.core.helpers.isValidEmail
 import com.mickaelbrenoit.pokecraftlab.core.helpers.isValidPassword
+import com.mickaelbrenoit.pokecraftlab.core.helpers.passwordMatches
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class SignUpViewModel @Inject constructor(
     private val resourceProvider: ResourceProvider
 ): ViewModel() {
 
-    var uiState = mutableStateOf(SignInUiState())
+    var uiState = mutableStateOf(SignUpUiState())
         private set
 
     private val email
@@ -31,6 +32,12 @@ class SignInViewModel @Inject constructor(
     private val isPasswordValid
         get() = uiState.value.isPasswordValid
 
+    private val repeatPassword
+        get() = uiState.value.repeatPassword
+
+    private val isRepeatPasswordValid
+        get() = uiState.value.isRepeatPasswordValid
+
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
     }
@@ -43,7 +50,11 @@ class SignInViewModel @Inject constructor(
         uiState.value = uiState.value.copy(password = newValue)
     }
 
-    fun onSignInClick() {
+    fun onRepeatPasswordChange(newValue: String) {
+        uiState.value = uiState.value.copy(repeatPassword = newValue)
+    }
+
+    fun onSignUpClick() {
         if(!email.isValidEmail()) {
             uiState.value = uiState.value.copy(isEmailValid = false)
             return
@@ -55,6 +66,12 @@ class SignInViewModel @Inject constructor(
             return
         }
         uiState.value = uiState.value.copy(isPasswordValid = true)
+
+        if(!password.passwordMatches(repeatPassword)) {
+            uiState.value = uiState.value.copy(isRepeatPasswordValid = false)
+            return
+        }
+        uiState.value = uiState.value.copy(isRepeatPasswordValid = true)
 
         viewModelScope.launch {
             val data = try {
