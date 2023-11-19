@@ -7,6 +7,7 @@ import com.mickaelbrenoit.pokecraftlab.core.helpers.ResourceProvider
 import com.mickaelbrenoit.pokecraftlab.core.helpers.isValidEmail
 import com.mickaelbrenoit.pokecraftlab.core.helpers.isValidPassword
 import com.mickaelbrenoit.pokecraftlab.core.helpers.passwordMatches
+import com.mickaelbrenoit.pokecraftlab.domain.authentication.use_case.AuthenticationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    private val authenticationUseCases: AuthenticationUseCases
 ): ViewModel() {
 
     var uiState = mutableStateOf(SignUpUiState())
@@ -75,7 +77,13 @@ class SignUpViewModel @Inject constructor(
 
         viewModelScope.launch {
             val data = try {
-
+                authenticationUseCases.signUpUseCase(uiState.value.email, uiState.value.password)
+                    .onSuccess {
+                        // TODO
+                    }
+                    .onFailure {
+                        // TODO
+                    }
             } catch (e: Exception) {
 
                 return@launch

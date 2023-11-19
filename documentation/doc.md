@@ -52,4 +52,16 @@ We will use Dagger Hilt for [Dependency Injection (DI)](https://developer.androi
 4. Create a class extending Application and add this class to the *application* tag in manifest file. (*android:name* attribute). This file should be annoted with **@AndroidHiltApp**
 5. Finally, *MainActivity* should be annoted with *@AndroidEntryPoint*.
 
+## Firebase
 
+In this project we will use [Firebase](https://firebase.google.com/) for our [authentication](https://firebase.google.com/docs/auth?authuser=0) & [remote database](https://firebase.google.com/docs/firestore?authuser=0).<br/>
+So we need to:
+1. Create a project
+2. Add an Android application
+3. Specify our app's package name
+4. Give our debug's sha1. Execute gradle task named *signingReport* at projet's level tasks and Android Debug Keys will appear in terminal
+5. *google-services.json* will be generated. This file should be placed in *app* root folder.
+6. Edit *project/build.gradle* and *app/build.gradle* with Firebase dependencies. A BOM is available for tracking the last version
+7. Finally, add dependencies following what tools from Firebase you're using (authentication, firestore, ...)
+
+Note :warning:: Don't forget to add *google-services.json* file to the *.gitignore* file to avoid pushing on remote server.

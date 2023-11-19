@@ -1,6 +1,8 @@
-package com.mickaelbrenoit.pokecraftlab.core.helpers
+package com.mickaelbrenoit.pokecraftlab.core.di
 
 import android.content.Context
+import com.mickaelbrenoit.pokecraftlab.core.helpers.ResourceProvider
+import com.mickaelbrenoit.pokecraftlab.core.helpers.ResourceProviderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
