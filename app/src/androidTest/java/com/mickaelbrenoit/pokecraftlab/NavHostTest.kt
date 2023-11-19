@@ -1,5 +1,7 @@
 package com.mickaelbrenoit.pokecraftlab
 
+import android.content.Context
+import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -7,6 +9,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -27,12 +30,6 @@ class NavHostTest {
     @Before
     fun setup() {
         hiltRule.inject()
-
-        composeTestRule.setContent {
-            navController = TestNavHostController(LocalContext.current)
-            navController.navigatorProvider.addNavigator(ComposeNavigator())
-            TestNavHost(navController = navController)
-        }
     }
 
     /**
@@ -44,6 +41,12 @@ class NavHostTest {
 
     @Test
     fun TestNavigationToDestination() {
+
+        val context: Context = ApplicationProvider.getApplicationContext()
+
+        composeTestRule.activity.setContent {
+            TestNavHost()
+        }
 
         // Assert that the destination screen is displayed
         composeTestRule.onNodeWithText("Signin").assertIsDisplayed()
