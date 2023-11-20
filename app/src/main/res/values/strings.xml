@@ -23,5 +23,9 @@
     <string name="authentication_email_supported_text">Email is invalid</string>
     <string name="authentication_password_supported_text">Password is invalid</string>
     <string name="authentication_confirm_password_supported_text">Password does not match</string>
+    <string name="authentication_sign_up_state_loading">Sign up in progress...</string>
+    <string name="authentication_sign_up_state_success">Sign up succeeded</string>
+    <string name="authentication_sign_up_state_error">Sign up failed cause: </string>
+    <string name="authentication_sign_up_state_unknown_error">Sign up failed (unknown error)</string>
 
 </resources>

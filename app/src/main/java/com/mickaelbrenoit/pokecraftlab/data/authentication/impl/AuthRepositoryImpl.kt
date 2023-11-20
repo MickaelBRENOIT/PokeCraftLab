@@ -1,4 +1,4 @@
-package com.mickaelbrenoit.pokecraftlab.data
+package com.mickaelbrenoit.pokecraftlab.data.authentication.impl
 
 import android.annotation.SuppressLint
 import com.google.firebase.auth.FirebaseAuth

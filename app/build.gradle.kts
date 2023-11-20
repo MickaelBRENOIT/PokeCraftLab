@@ -103,6 +103,9 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+
+    // Livedata as state
+    implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
 }
 
 // Allow references to generated code

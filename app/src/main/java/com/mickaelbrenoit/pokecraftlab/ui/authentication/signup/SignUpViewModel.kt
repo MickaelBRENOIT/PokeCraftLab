@@ -1,6 +1,8 @@
 package com.mickaelbrenoit.pokecraftlab.ui.authentication.signup
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mickaelbrenoit.pokecraftlab.core.helpers.ResourceProvider
@@ -8,6 +10,7 @@ import com.mickaelbrenoit.pokecraftlab.core.helpers.isValidEmail
 import com.mickaelbrenoit.pokecraftlab.core.helpers.isValidPassword
 import com.mickaelbrenoit.pokecraftlab.core.helpers.passwordMatches
 import com.mickaelbrenoit.pokecraftlab.domain.authentication.use_case.AuthenticationUseCases
+import com.mickaelbrenoit.pokecraftlab.ui.authentication.AuthState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -15,12 +18,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val resourceProvider: ResourceProvider,
     private val authenticationUseCases: AuthenticationUseCases
-): ViewModel() {
+) : ViewModel() {
 
     var uiState = mutableStateOf(SignUpUiState())
         private set
+
+    // https://stackoverflow.com/questions/70016316/convert-mutablelivedata-to-mutablestate
+    private val _authState = MutableLiveData<AuthState>()
+    val authState: LiveData<AuthState> = _authState
 
     private val email
         get() = uiState.value.email
@@ -57,35 +63,36 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onSignUpClick() {
-        if(!email.isValidEmail()) {
+        if (!email.isValidEmail()) {
             uiState.value = uiState.value.copy(isEmailValid = false)
             return
         }
         uiState.value = uiState.value.copy(isEmailValid = true)
 
-        if(!password.isValidPassword()) {
+        if (!password.isValidPassword()) {
             uiState.value = uiState.value.copy(isPasswordValid = false)
             return
         }
         uiState.value = uiState.value.copy(isPasswordValid = true)
 
-        if(!password.passwordMatches(repeatPassword)) {
+        if (!password.passwordMatches(repeatPassword)) {
             uiState.value = uiState.value.copy(isRepeatPasswordValid = false)
             return
         }
         uiState.value = uiState.value.copy(isRepeatPasswordValid = true)
 
         viewModelScope.launch {
+            _authState.value = AuthState.Loading
             val data = try {
                 authenticationUseCases.signUpUseCase(uiState.value.email, uiState.value.password)
                     .onSuccess {
-                        // TODO
+                        _authState.value = AuthState.Success(it)
                     }
                     .onFailure {
-                        // TODO
+                        _authState.value = AuthState.Error(it.localizedMessage)
                     }
             } catch (e: Exception) {
-
+                _authState.value = AuthState.Error(e.localizedMessage)
                 return@launch
             }
         }

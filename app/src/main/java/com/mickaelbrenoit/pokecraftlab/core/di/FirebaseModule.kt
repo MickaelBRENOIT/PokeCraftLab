@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
-import com.mickaelbrenoit.pokecraftlab.data.AuthRepositoryImpl
+import com.mickaelbrenoit.pokecraftlab.data.authentication.impl.AuthRepositoryImpl
 import com.mickaelbrenoit.pokecraftlab.domain.authentication.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
