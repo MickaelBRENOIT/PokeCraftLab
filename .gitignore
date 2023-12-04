@@ -34,3 +34,6 @@ google-services.json
 
 # My ignored files
 resources/
+
+# Mac
+.DS_Store

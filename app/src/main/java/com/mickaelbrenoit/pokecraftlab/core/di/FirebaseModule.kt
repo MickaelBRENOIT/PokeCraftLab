@@ -6,7 +6,9 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.mickaelbrenoit.pokecraftlab.data.authentication.impl.AuthRepositoryImpl
+import com.mickaelbrenoit.pokecraftlab.data.user.impl.UserRepositoryImpl
 import com.mickaelbrenoit.pokecraftlab.domain.authentication.repository.AuthRepository
+import com.mickaelbrenoit.pokecraftlab.domain.user.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,5 +31,11 @@ object FirebaseModule {
     @Singleton
     fun provideAuthRepository(firebaseAuth: FirebaseAuth): AuthRepository {
         return AuthRepositoryImpl(firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(firestore: FirebaseFirestore): UserRepository {
+        return UserRepositoryImpl(firestore)
     }
 }

@@ -1,5 +1,6 @@
 package com.mickaelbrenoit.pokecraftlab.ui.authentication.signup
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,8 @@ import com.mickaelbrenoit.pokecraftlab.core.helpers.isValidEmail
 import com.mickaelbrenoit.pokecraftlab.core.helpers.isValidPassword
 import com.mickaelbrenoit.pokecraftlab.core.helpers.passwordMatches
 import com.mickaelbrenoit.pokecraftlab.domain.authentication.use_case.AuthenticationUseCases
+import com.mickaelbrenoit.pokecraftlab.domain.user.entity.User
+import com.mickaelbrenoit.pokecraftlab.domain.user.use_case.UserUseCases
 import com.mickaelbrenoit.pokecraftlab.ui.authentication.AuthState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val authenticationUseCases: AuthenticationUseCases
+    private val authenticationUseCases: AuthenticationUseCases,
+    private val userUseCases: UserUseCases
 ) : ViewModel() {
 
     var uiState = mutableStateOf(SignUpUiState())
@@ -62,6 +66,7 @@ class SignUpViewModel @Inject constructor(
         uiState.value = uiState.value.copy(repeatPassword = newValue)
     }
 
+    @SuppressLint("RestrictedApi")
     fun onSignUpClick() {
         if (!email.isValidEmail()) {
             uiState.value = uiState.value.copy(isEmailValid = false)
@@ -85,8 +90,18 @@ class SignUpViewModel @Inject constructor(
             _authState.value = AuthState.Loading
             val data = try {
                 authenticationUseCases.signUpUseCase(uiState.value.email, uiState.value.password)
-                    .onSuccess {
-                        _authState.value = AuthState.Success(it)
+                    .onSuccess { userFirebase ->
+                        val user = User(
+                            uid = userFirebase.uid!!,
+                            email = uiState.value.email
+                        )
+                        userUseCases.addUserUseCase.invoke(user)
+                            .onSuccess {
+                                _authState.value = AuthState.Success(userFirebase)
+                            }
+                            .onFailure {
+                                _authState.value = AuthState.Error(it.localizedMessage)
+                            }
                     }
                     .onFailure {
                         _authState.value = AuthState.Error(it.localizedMessage)
